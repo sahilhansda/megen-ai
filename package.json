@@ -1,0 +1,19 @@
+{
+  "name": "megen-ai",
+  "version": "1.0.0",
+  "description": "Ai Synth Melody Generation Tool",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": ["Express", "Synth", "Melody", "Ai"],
+  "author": "Sahil Hansda",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-wav": "^0.0.2",
+    "uuid": "^9.0.0",
+    "wav-encoder": "^1.3.0"
+  }
+}

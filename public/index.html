@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Synth Melody Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-pink-500 text-white py-4 px-8 rounded-lg shadow-md">
+        <h1 class="text-4xl font-bold mb-2">Synth Melody Generator</h1>
+        <p class="text-lg mb-4">Generate random melodies with just a click!</p>
+        <div class="flex items-center">
+            <label for="duration" class="mr-2">Duration:</label>
+            <input type="range" id="duration" min="1" max="10" step="1" value="2" class="w-60">
+            <span id="durationValue" class="ml-2 font-bold">2</span> <sapn class="ml-2">minutes</sapn>
+        </div>
+        <button id="generateButton" class="mt-4 bg-white text-pink-500 font-bold py-2 px-4 rounded-full shadow">Generate Melody</button>
+        <a id="downloadLink" style="display: none;"></a>
+    </div>
+
+    <div class="mt-8 text-center w-3/6">
+        <h2 class="text-3xl text-white font-bold mb-4">How it works</h2>
+        <p class="text-lg text-gray-400">Adjust the duration slider to set the length of the melody in minutes. Click the "Generate Melody" button to create a unique random melody. The melody will be downloaded as a WAV file with a UUID-based filename.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function () {
+            const duration = document.getElementById('duration').value;
+
+            fetch(`/api/generate-melody?duration=${duration}`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = url;
+                    downloadLink.download = uuidv4() + '.wav';
+                    downloadLink.style.display = 'block';
+                    downloadLink.click();
+                });
+        });
+        document.getElementById('duration').addEventListener('input', function () {
+            const durationValue = document.getElementById('durationValue');
+            durationValue.textContent = this.value;
+        });
+    </script>
+</body>
+</html>
